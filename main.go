@@ -40,7 +40,7 @@ func main() {
 
 	fmt.Printf("login succesfull, token is %s\n", clientToken.Auth.ClientToken)
 
-	url = fmt.Sprintf("%s/v1/%s", args.addr, args.path)
+	url = fmt.Sprintf("%s/%s", args.addr, args.path)
 	req, err = http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Fatal(err)
