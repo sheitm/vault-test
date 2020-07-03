@@ -38,7 +38,21 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("login succesfull, token is %s", clientToken.Auth.ClientToken)
+	fmt.Printf("login succesfull, token is %s\n", clientToken.Auth.ClientToken)
+
+	url = fmt.Sprintf("%s/v1/%s", args.addr, args.path)
+	req, err = http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	req.Header.Set("X-Vault-Token", clientToken.Auth.ClientToken)
+	var secret Secret
+	if err = client.Do(req, &secret); err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("secret is: %s\n", secret.Data[args.key])
 }
 
 
@@ -70,4 +84,13 @@ type Auth struct {
 	Policies      []string               `json:"policies"`
 	TokenPolicies []string               `json:"token_policies"`
 	Metadata      map[string]interface{} `json:"metadata"`
+}
+
+// Secret contains all data and metadata from a Vault secret
+type Secret struct {
+	RequestID     string            `json:"request_id"`
+	LeaseID       string            `json:"lease_id"`
+	Renewable     bool              `json:"renewable"`
+	LeaseDuration int               `json:"lease_duration"`
+	Data          map[string]string `json:"data"`
 }

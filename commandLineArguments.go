@@ -11,6 +11,8 @@ var commandLineSetters = map[string]commandLineSetter {
 	"-addr": func(arguments *commandLineArguments, value string) {arguments.addr = value},
 	"-token": func(arguments *commandLineArguments, value string) { arguments.githubToken = value },
 	"-role": func(arguments *commandLineArguments, value string) { arguments.role = value },
+	"-path": func(arguments *commandLineArguments, value string){ arguments.path = value },
+	"-key": func(arguments *commandLineArguments, value string) { arguments.key = value	},
 }
 func getCommandLineArguments(arr []string) (*commandLineArguments, error) {
 	if len(arr) == 0 || len(arr) == 1 {
@@ -36,4 +38,6 @@ type commandLineArguments struct {
 	addr        string
 	githubToken string
 	role        string
+	path        string
+	key         string
 }
